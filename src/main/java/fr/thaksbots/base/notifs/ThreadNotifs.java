@@ -26,20 +26,25 @@ public class ThreadNotifs extends TimerTask {
     private boolean isStreaming;
 
     private String ChannelId;
-    private List<Long> channelNotif;
+    private List<Long> channelNotifTwitch;
+    private List<Long> channelNotifYouTube;
     private String url;
     private String twitchChannelID;
 
     public ThreadNotifs() {
         lastVideo = "";
-        ChannelId = "UCZcrXZuopxn9NSPBFbIDF5g";
-        twitchChannelID = "189039716";
+        ChannelId = "UCYz1JD5BgeJQDsv2VKaR26A";
+        twitchChannelID = "94557135";
+        //twitchChannelID = "122547110";
         isStreaming = false;
         scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube");
         url="https://www.googleapis.com/youtube/v3/search?key="+ Credentials.YOUTUBE_API_KEY+"&channelId="+ChannelId+"&part=snippet,id&order=date&maxResults=1";
-        channelNotif = new ArrayList<>();
-        channelNotif.add(406783026635210752L);
-        //channelNotif.add(409742576418291732L);
+        //channelNotifTwitch = new ArrayList<>();
+        channelNotifTwitch.add(326491633782882314L);
+
+        channelNotifYouTube = new ArrayList<>();
+        channelNotifYouTube.add(372809852059385856L);
+        //channelNotifTwitch.add(409742576418291732L);
     }
 
     public boolean isStreaming() throws IOException {
@@ -95,12 +100,6 @@ public class ThreadNotifs extends TimerTask {
         return json.getJSONObject("stream");
     }
 
-    public boolean addChannelId(long id){
-        if(channelNotif.contains(id))
-            return false;
-        channelNotif.add(id);
-        return true;
-    }
 
     private String getLastVideoId() throws IOException {
         HttpsURLConnection con = (HttpsURLConnection) new URL(url).openConnection();
@@ -211,7 +210,7 @@ public class ThreadNotifs extends TimerTask {
                         .withUrl("https://www.youtube.com/watch?v="+getLastVideoId())
                         .appendField(getTitle(), getDescription(), false);
 
-                for(long l : channelNotif){
+                for(long l : channelNotifYouTube){
                     RequestBuffer.request(()-> Base.logged.getChannelByID(l).sendMessage(eb.build()));
                 }
 
@@ -227,13 +226,15 @@ public class ThreadNotifs extends TimerTask {
                     JSONObject channel = getTwitchJSON();
 
                     EmbedBuilder eb = new EmbedBuilder()
-                            .withTitle("Je suis en stream !")
+                            .withTitle("Raevz38 est en stream !")
                             .withThumbnail(channel.getJSONObject("preview").getString("large"))
                             .withUrl(channel.getJSONObject("channel").getString("url"))
-                            .appendField(channel.getJSONObject("channel").getString("status"), channel.getJSONObject("channel").getString("description"), false);
+                            .appendField(channel.getJSONObject("channel").getString("status"), channel.getJSONObject("channel").getString("description").equals("")?"Pas de description":channel.getJSONObject("channel").getString("description"), true)
+                            .appendField("Jeu", channel.getString("game"), false)
+                            .withImage(channel.getJSONObject("preview").getString("template").replaceAll("\\{width}", ""+(Integer.parseInt(channel.getJSONObject("channel").getString("video_height")))).replaceAll("\\{height}", ""+(Integer.parseInt(channel.getJSONObject("channel").getString("video_height")))));
 
 
-                    for(long l : channelNotif){
+                    for(long l : channelNotifTwitch){
                         RequestBuffer.request(()-> Base.logged.getChannelByID(l).sendMessage(eb.build()));
                     }
                 }

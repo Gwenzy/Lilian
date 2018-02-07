@@ -3,9 +3,11 @@ package fr.thaksbots.base.commands.everyone;
 
 import fr.thaksbots.base.Base;
 import fr.thaksbots.base.commands.Command;
+import fr.thaksbots.base.commands.admin.EnableCommand;
 import fr.thaksbots.base.exceptions.exceptions.ThaksbotException;
 import fr.thaksbots.base.music.MusicManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.util.RequestBuffer;
 
 /**
  * Created by gwend on 15/11/2017.
@@ -25,6 +27,10 @@ public class PlayCommand extends Command {
     public void handle(MessageReceivedEvent event){
         try {
             if(canBeExecuted(event)) {
+                if(!EnableCommand.MUSIC){
+                    RequestBuffer.request(()->event.getChannel().sendMessage("La fonctionnalité Musique a été désactivée par un administrateur"));
+                    return;
+                }
                 String url = getArgMessage(event.getMessage().getFormattedContent(), 0);
                 if(url.startsWith("#")){
                     int ID = Integer.parseInt(url.split("#")[1]);

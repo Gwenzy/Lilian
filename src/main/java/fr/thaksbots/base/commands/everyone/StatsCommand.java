@@ -2,6 +2,7 @@ package fr.thaksbots.base.commands.everyone;
 
 import fr.thaksbots.base.Credentials;
 import fr.thaksbots.base.commands.Command;
+import fr.thaksbots.base.commands.admin.EnableCommand;
 import fr.thaksbots.base.exceptions.exceptions.ThaksbotException;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,6 +36,10 @@ public class StatsCommand extends Command{
     public void handle(MessageReceivedEvent event){
         try {
             if(canBeExecuted(event)){
+                if(!EnableCommand.STATS){
+                    RequestBuffer.request(()->event.getChannel().sendMessage("La fonctionnalité Statistiques a été désactivée par un administrateur"));
+                    return;
+                }
                 String platform = getArgs(event.getMessage().getFormattedContent())[0].toLowerCase();
                 String nickname = getArgs(event.getMessage().getFormattedContent())[1];
                 HttpsURLConnection con = (HttpsURLConnection) new URL("https://api.fortnitetracker.com/v1/profile/"+platform+"/"+nickname).openConnection();

@@ -5,6 +5,7 @@ import fr.thaksbots.base.commands.Command;
 import fr.thaksbots.base.exceptions.exceptions.ThaksbotException;
 import fr.thaksbots.base.music.MusicManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.util.RequestBuffer;
 
 /**
  * Created by Shû~ on 17/11/2017.
@@ -21,6 +22,10 @@ public class SneakyCommand extends Command {
     public void handle(MessageReceivedEvent event){
         try {
             if(canBeExecuted(event)){
+                if(!EnableCommand.MUSIC){
+                    RequestBuffer.request(()->event.getChannel().sendMessage("La fonctionnalité Musique a été désactivée par un administrateur"));
+                    return;
+                }
                 MusicManager.getGuildAudioPlayer(event.getGuild()).setSneakyMode(!MusicManager.getGuildAudioPlayer(event.getGuild()).isSneakyMode());
                 event.getChannel().sendMessage("Le mode furtif est "+(MusicManager.getGuildAudioPlayer(event.getGuild()).isSneakyMode()?"activé":"désactivé"));
                 }

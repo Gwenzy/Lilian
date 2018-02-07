@@ -2,10 +2,12 @@ package fr.thaksbots.base.commands.everyone;
 
 
 import fr.thaksbots.base.commands.Command;
+import fr.thaksbots.base.commands.admin.EnableCommand;
 import fr.thaksbots.base.exceptions.exceptions.ThaksbotException;
 import fr.thaksbots.base.music.MusicManager;
 import fr.thaksbots.base.music.youtube.Search;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.util.RequestBuffer;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,7 +29,10 @@ public class FastplayCommand extends Command {
     public void handle(MessageReceivedEvent event){
         try {
             if(canBeExecuted(event)){
-
+                if(!EnableCommand.MUSIC){
+                    RequestBuffer.request(()->event.getChannel().sendMessage("La fonctionnalité Musique a été désactivée par un administrateur"));
+                    return;
+                }
                 String keywords = getArgMessage(event.getMessage().getFormattedContent(), 0);
                 List<String> results = null;
 

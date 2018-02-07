@@ -30,8 +30,8 @@ public class Base {
 
 
         cm.registerCommand(new BlockCommand("block", GLOBAL_PREFIX, true));
-        cm.registerCommand(new DisableCommand("disable", GLOBAL_PREFIX, true));
-        cm.registerCommand(new EnableCommand("enable", GLOBAL_PREFIX, true));
+        cm.registerCommand(new DisableDevCommand("disabledev", GLOBAL_PREFIX, true));
+        cm.registerCommand(new EnableDevCommand("enabledev", GLOBAL_PREFIX, true));
         cm.registerCommand(new StreamCommand("stream", GLOBAL_PREFIX, true));
         cm.registerCommand(new LogoutCommand("logout", GLOBAL_PREFIX, true));
 
@@ -40,6 +40,8 @@ public class Base {
         cm.registerCommand(new ForcenextCommand("forcenext", GLOBAL_PREFIX, true));
         cm.registerCommand(new SneakyCommand("sneaky", GLOBAL_PREFIX, true));
         cm.registerCommand(new VolumeCommand("volume", GLOBAL_PREFIX, true));
+        cm.registerCommand(new DisableCommand("disable", GLOBAL_PREFIX, true));
+        cm.registerCommand(new EnableCommand("enable", GLOBAL_PREFIX, true));
 
         cm.registerCommand(new FastplayCommand("fastplay", GLOBAL_PREFIX, true));
         cm.registerCommand(new HelpCommand("help", GLOBAL_PREFIX, true));

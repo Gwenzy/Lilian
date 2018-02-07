@@ -2,6 +2,7 @@ package fr.thaksbots.base.commands.everyone;
 
 
 import fr.thaksbots.base.commands.Command;
+import fr.thaksbots.base.commands.admin.EnableCommand;
 import fr.thaksbots.base.exceptions.exceptions.ThaksbotException;
 import fr.thaksbots.base.music.MusicManager;
 import fr.thaksbots.base.music.youtube.Search;
@@ -32,6 +33,10 @@ public class SearchCommand extends Command {
     public void handle(MessageReceivedEvent event ){
         try {
             if(canBeExecuted(event)) {
+                if(!EnableCommand.MUSIC){
+                    RequestBuffer.request(()->event.getChannel().sendMessage("La fonctionnalité Musique a été désactivée par un administrateur"));
+                    return;
+                }
                 String query = getArgMessage(event.getMessage().getFormattedContent(), 0);
                 List <String> results = null;
                 try {

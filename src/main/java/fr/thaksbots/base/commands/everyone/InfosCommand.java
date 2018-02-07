@@ -3,10 +3,12 @@ package fr.thaksbots.base.commands.everyone;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import fr.thaksbots.base.Base;
 import fr.thaksbots.base.commands.Command;
+import fr.thaksbots.base.commands.admin.EnableCommand;
 import fr.thaksbots.base.exceptions.exceptions.ThaksbotException;
 import fr.thaksbots.base.music.MusicManager;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.util.EmbedBuilder;
+import sx.blah.discord.util.RequestBuffer;
 
 import java.awt.*;
 
@@ -25,6 +27,10 @@ public class InfosCommand extends Command {
     public void handle(MessageReceivedEvent event){
         try {
             if(canBeExecuted(event)){
+                if(!EnableCommand.MUSIC){
+                    RequestBuffer.request(()->event.getChannel().sendMessage("La fonctionnalité Musique a été désactivée par un administrateur"));
+                    return;
+                }
                 try {
                     AudioTrackInfo infos = MusicManager.getGuildAudioPlayer(event.getGuild()).getPlayer().getPlayingTrack().getInfo();
                     EmbedBuilder eb = new EmbedBuilder();

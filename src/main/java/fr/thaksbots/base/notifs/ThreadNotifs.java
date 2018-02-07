@@ -3,6 +3,7 @@ package fr.thaksbots.base.notifs;
 import com.google.common.collect.Lists;
 import fr.thaksbots.base.Base;
 import fr.thaksbots.base.Credentials;
+import fr.thaksbots.base.commands.admin.EnableCommand;
 import org.json.JSONObject;
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.RequestBuffer;
@@ -39,7 +40,7 @@ public class ThreadNotifs extends TimerTask {
         isStreaming = false;
         scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube");
         url="https://www.googleapis.com/youtube/v3/search?key="+ Credentials.YOUTUBE_API_KEY+"&channelId="+ChannelId+"&part=snippet,id&order=date&maxResults=1";
-        //channelNotifTwitch = new ArrayList<>();
+        channelNotifTwitch = new ArrayList<>();
         channelNotifTwitch.add(326491633782882314L);
 
         channelNotifYouTube = new ArrayList<>();
@@ -199,6 +200,9 @@ public class ThreadNotifs extends TimerTask {
     }
     @Override
     public void run() {
+        if(!EnableCommand.NOTIFS){
+            return;
+        }
         try {
             if(lastVideo.equals(""))
                 lastVideo = getLastVideoId();

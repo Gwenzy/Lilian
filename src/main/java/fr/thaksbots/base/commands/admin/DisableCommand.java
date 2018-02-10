@@ -14,7 +14,7 @@ public class DisableCommand extends Command {
     public DisableCommand(String name, String prefix, boolean enabled) {
         super(name, prefix, enabled);
         this.setHelpContent("Désactive une fonctionnalité du bot");
-        this.addAuthorizedClient("310400283224178688");
+        this.addAuthorizedGroup("Modos");
         this.addAuthorizedClient(Credentials.ID_DEVELOPPER);
         this.addNeededArg("Musique/Notifs/Stats");
     }

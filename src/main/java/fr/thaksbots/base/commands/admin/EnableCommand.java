@@ -18,7 +18,7 @@ public class EnableCommand extends Command{
         super(name, prefix, enabled);
 
         this.setHelpContent("Activé une fonctionnalité du bot");
-        this.addAuthorizedClient("310400283224178688");
+        this.addAuthorizedGroup("Modos");
         this.addAuthorizedClient(Credentials.ID_DEVELOPPER);
         this.addNeededArg("Musique/Notifs/Stats");
     }

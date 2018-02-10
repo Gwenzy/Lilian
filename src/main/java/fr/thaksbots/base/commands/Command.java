@@ -126,6 +126,8 @@ public abstract class Command implements IListener<MessageReceivedEvent>{
             enabledOk = true;
         if(message.toLowerCase().startsWith(this.prefix+this.name))
             prefixOk = true;
+        if(message.toLowerCase().startsWith("@"+ Base.logged.getOurUser().getDisplayName(event.getGuild()).toLowerCase()+" "+this.name))
+            prefixOk = true;
         for(String alias : aliases){
             if(message.toLowerCase().startsWith(this.prefix+alias))
                 prefixOk = true;
